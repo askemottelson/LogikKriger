@@ -3,8 +3,8 @@ var rownum = 0;
 var err0;var err1;var err2; var err3; var err5;var err6;var err7;var err8;var err9;var err10;var err11;var err12;var err13;
 
 function sleep(ms) {
-ms += new Date().getTime();
-while (new Date() < ms){}
+  ms += new Date().getTime();
+  while (new Date() < ms){}
 } 
 
 function logicalSymbol(root){
@@ -36,33 +36,33 @@ function numCons(arr){
 
 /* returns first proposition in expressionList */
 function firstProp(exprList){
-    var i;
-    for(i=0; i < exprList.length; i++){
-     if(exprList[i].type.value == TYPE.PROPOSITION.value){
-        return exprList[i];
-     }
-    }
-    return null;
+  var i;
+  for(i=0; i < exprList.length; i++){
+   if(exprList[i].type.value == TYPE.PROPOSITION.value){
+    return exprList[i];
+  }
+}
+return null;
 }
 
 function findTherefore(exprList){
-    var i;
-    for(i = 0; i < exprList.length; i++){
-     if(exprList[i].value == CONNECTIVE.THUS.value){
-        return i;
-     }
-    }
-    return -1;
+  var i;
+  for(i = 0; i < exprList.length; i++){
+   if(exprList[i].value == CONNECTIVE.THUS.value){
+    return i;
+  }
+}
+return -1;
 }
 
 function findIndex(exprList,root){
-    var i;
-    for(i = 0; i < exprList.length; i++){
-     if(exprList[i].index == root.index){
-        return i;
-     }
-    }
-    return -1;
+  var i;
+  for(i = 0; i < exprList.length; i++){
+   if(exprList[i].index == root.index){
+    return i;
+  }
+}
+return -1;
 }
 
 function numProp(arr){
@@ -135,7 +135,7 @@ function isLParen(paren){
   if(!paren){
     return false;
   }
-    
+  
   return (paren.value == PAREN.LPAREN.value);
 }
 
@@ -151,7 +151,7 @@ function isNOT(expr){
   if(!expr){
     return false;
   }
-    
+  
   return (expr.value == CONNECTIVE.NEGATION.value);
 }
 
@@ -159,7 +159,7 @@ function isCon(expr){
   if(!expr){
     return false;
   }
-    
+  
   return expr.type.value == TYPE.CONNECTIVE.value;
 }
 
@@ -228,7 +228,7 @@ function isIllFormed(expr){
   }
   
    // not more than one thus
-  if(numThus(expr) > 1){
+   if(numThus(expr) > 1){
     parseError(err5);
     return true;
   }
@@ -339,37 +339,37 @@ function isIllFormed(expr){
 
 function insertRow(list){
 
-    var table = document.getElementById("truthtable");
-    var rowCount = table.rows.length;
-    var row = table.insertRow(rowCount);
-    var cell;
-    
-    var i;
-    for(i = 0; i < list.length; i++){
-      cell = row.insertCell(i);
-      cell.innerHTML = list[i].truth;
-    }
+  var table = document.getElementById("truthtable");
+  var rowCount = table.rows.length;
+  var row = table.insertRow(rowCount);
+  var cell;
+  
+  var i;
+  for(i = 0; i < list.length; i++){
+    cell = row.insertCell(i);
+    cell.innerHTML = list[i].truth;
+  }
 }
 
 function insertCell(character){
-    if(printedProps.indexOf(character) == -1){
-      printedProps.push(character);
-    }
-    else{
-      return;
-    }
-    
-    var table = document.getElementById("truthtable");
-    var rowCount = table.rows.length;
-    
-    if(rowCount === 0){
-      table.insertRow(0);
-    }
-    
-    var row = table.rows[0];
-    var cell = row.insertCell(0);
-    cell.innerHTML = "<strong>"+character+"</strong>";
-    
+  if(printedProps.indexOf(character) == -1){
+    printedProps.push(character);
+  }
+  else{
+    return;
+  }
+  
+  var table = document.getElementById("truthtable");
+  var rowCount = table.rows.length;
+  
+  if(rowCount === 0){
+    table.insertRow(0);
+  }
+  
+  var row = table.rows[0];
+  var cell = row.insertCell(0);
+  cell.innerHTML = "<strong>"+character+"</strong>";
+  
 }
 
 function stringOfRoot(root){
@@ -379,8 +379,8 @@ function stringOfRoot(root){
  
  if(!root.children || root.children.length === 0 || root.type.value == TYPE.PROPOSITION.value){
   return con;
- }
- else{
+}
+else{
   
   if(root.children.length == 1 && root.value == CONNECTIVE.NEGATION.value){
     if(root.children[0].children.length == 2){
@@ -405,42 +405,42 @@ function stringOfRoot(root){
       return stringOfRoot(root.children[0]) +  con + stringOfRoot(root.children[1]);
     }  
   }
- }
- 
- return result;
+}
+
+return result;
 }
 
 function printProps2(exprList){
-    var i;
-    var used = [];
-    var candidate;
+  var i;
+  var used = [];
+  var candidate;
+  
+  for(i = 0; i < exprList.length; i++){
+    candidate = exprList[exprList.length-1-i];
     
-    for(i = 0; i < exprList.length; i++){
-        candidate = exprList[exprList.length-1-i];
-    
-        if(candidate.type.value == TYPE.PROPOSITION.value && used.indexOf(candidate) == -1){
-           insertCell(candidate.name);
-           used.push(candidate);
-        }
-    
-    }
+    if(candidate.type.value == TYPE.PROPOSITION.value && used.indexOf(candidate) == -1){
+     insertCell(candidate.name);
+     used.push(candidate);
+   }
+   
+ }
 }
 
 function xprintProps(root){
 
-    var candidate = root;
- 
-    if(candidate.type.value == TYPE.PROPOSITION.value){
-      insertCell(candidate.name);
-    }
-      
-    if(candidate.children.length == 2){
-      printProps(candidate.children[0]);
-      printProps(candidate.children[1]);
-    }
-    else if(candidate.children.length == 1){
-      printProps(candidate.children[0]);
-    }
+  var candidate = root;
+  
+  if(candidate.type.value == TYPE.PROPOSITION.value){
+    insertCell(candidate.name);
+  }
+  
+  if(candidate.children.length == 2){
+    printProps(candidate.children[0]);
+    printProps(candidate.children[1]);
+  }
+  else if(candidate.children.length == 1){
+    printProps(candidate.children[0]);
+  }
 }
 
 function proceedStructure(arr, size){
@@ -471,11 +471,11 @@ function createTrueFalseColumn(i,totalColumns, totalRows){
   for(k = 0; k < magic; k++){
     arr.push("T");
   }
-    
+  
   for(k=0; k < magic; k++){
     arr.push("F");
   }
-    
+  
   return proceedStructure(arr, totalRows);
 }
 
@@ -518,7 +518,7 @@ function buildHTMLTable(root,output){
   var k;
   var l;
   for(k = 0; k < totalRows; k++){
-  
+    
     var tempRow = [];
     
     for(l = 0; l < totalColumns; l++){
@@ -529,7 +529,7 @@ function buildHTMLTable(root,output){
     }
     
     tempRow.push(interpretRow(tempRow,root));
-  
+    
     insertRow(tempRow);
   }
   
@@ -538,143 +538,143 @@ function buildHTMLTable(root,output){
 
 function hasNegated(root,varname){
   if(!root){
-      return false;
+    return false;
   }
 
   while(root){
    if(root.value == CONNECTIVE.NEGATION.value && root.children[0].type.value == TYPE.PROPOSITION.value && root.children[0].name == varname && root.hasPrinted){
-       return true;
+     return true;
    }
-  
+   
 /*  
    if(hasNegated(root.sipling,varname)){
        return true;
    }
-*/
-  
+   */
+   
    if(root.value == CONNECTIVE.CONJUNCTION.value){
-       
-       if(root.children[0].value == CONNECTIVE.NEGATION.value && root.children[0].children[0].type.value == TYPE.PROPOSITION.value && root.children[0].children[0].name == varname && root.children[0].hasPrinted){
-           return true;
-       }
-       if(root.children[1].value == CONNECTIVE.NEGATION.value && root.children[1].children[0].type.value == TYPE.PROPOSITION.value && root.children[1].children[0].name == varname && root.children[1].hasPrinted){
-           return true;
-       }
+     
+     if(root.children[0].value == CONNECTIVE.NEGATION.value && root.children[0].children[0].type.value == TYPE.PROPOSITION.value && root.children[0].children[0].name == varname && root.children[0].hasPrinted){
+       return true;
+     }
+     if(root.children[1].value == CONNECTIVE.NEGATION.value && root.children[1].children[0].type.value == TYPE.PROPOSITION.value && root.children[1].children[0].name == varname && root.children[1].hasPrinted){
+       return true;
+     }
    }
    
    root = root.paren;
-  }
+ }
 
-  return false;
+ return false;
 }
 
 
 
 function hasNonNegated(root,varname){
   if(!root){
-      return false;
+    return false;
   }
 
   
   while(root){
    if(root.type.value == TYPE.PROPOSITION.value && root.name == varname && root.hasPrinted){
-       return true;
+     return true;
    }
    
    if(root.value == CONNECTIVE.CONJUNCTION.value){
-       if(root.children[0].type.value == TYPE.PROPOSITION.value && root.children[0].name == varname && root.children[0].hasPrinted){
-           return true;
-       }
-       if(root.children[1].type.value == TYPE.PROPOSITION.value && root.children[1].name == varname && root.children[1].hasPrinted){
-           return true;
-       }
+     if(root.children[0].type.value == TYPE.PROPOSITION.value && root.children[0].name == varname && root.children[0].hasPrinted){
+       return true;
+     }
+     if(root.children[1].type.value == TYPE.PROPOSITION.value && root.children[1].name == varname && root.children[1].hasPrinted){
+       return true;
+     }
    }
    
    root = root.paren;
-  }
+ }
 
-  return false;
+ return false;
 }
 
 function addCanvas(x,y){
-    var canvas = document.getElementById("myCanvas");
-    var context = canvas.getContext("2d");
+  var canvas = document.getElementById("myCanvas");
+  var context = canvas.getContext("2d");
 
-    var oldCanvas = canvas.toDataURL("image/png");
-    canvas.width += x;
-    canvas.height += y;
+  var oldCanvas = canvas.toDataURL("image/png");
+  canvas.width += x;
+  canvas.height += y;
 
-    var img = new Image();
-    img.src = oldCanvas;
-    img.onload = function (){
-      context.drawImage(img, 0, 0);
-    };
+  var img = new Image();
+  img.src = oldCanvas;
+  img.onload = function (){
+    context.drawImage(img, 0, 0);
+  };
 }
 
 function clone(obj) {
-    if (null === obj || "object" != typeof obj){ return obj; }
-    var copy = {};
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)){
-            copy[attr] = obj[attr];
-        }
+  if (null === obj || "object" != typeof obj){ return obj; }
+  var copy = {};
+  for (var attr in obj) {
+    if (obj.hasOwnProperty(attr)){
+      copy[attr] = obj[attr];
     }
-    return copy;
+  }
+  return copy;
 }
 
 function findParenSipling(root){
-    var sipling;
-    while(root){
-        if(root.sipling && !root.printedSipling){
-            sipling = root.sipling;
-            root.printedSipling = true;
+  var sipling;
+  while(root){
+    if(root.sipling && !root.printedSipling){
+      sipling = root.sipling;
+      root.printedSipling = true;
             //root.sipling = null;
             break;
+          }
+          root = root.paren;
         }
-        root = root.paren;
-    }
 
-  return clone(sipling);
-}
+        return clone(sipling);
+      }
 
-function exprLength(expr){
-    var val = 0;
-    
-    for(var i = 0; i < expr.length; i++){
-        switch(expr[i]){
+      function exprLength(expr){
+        var val = 0;
+        
+        for(var i = 0; i < expr.length; i++){
+          switch(expr[i]){
             case Unot: val=+1.1; break;
             case Uand: val+=1.2; break;
-	        case Uor: val+=1.2; break;
-	        case Urarr: val+=1.2; break;
-	        case Uharr: val+=1.2; break;
-	        case Uthus: val+=1.2; break;
-	        case '(': val+= 0.5; break;
-	        case ')': val+= 0.5; break;
-	        default: val+=1.5; break;
-        }
-    }
-    return val*4;
+            case Uor: val+=1.2; break;
+            case Urarr: val+=1.2; break;
+            case Uharr: val+=1.2; break;
+            case Uthus: val+=1.2; break;
+            case '(': val+= 0.5; break;
+             case ')': val+= 0.5; break;
+default: val+=1.5; break;
+}
+}
+return val*4;
 }
 
 function drawOr(ctx,posX,posY,pos){
-    ctx.moveTo(posX+(pos/2),posY+10);
-    ctx.lineTo(posX+80+(pos/2),posY+40);
-    ctx.stroke();
+  ctx.moveTo(posX+(pos/2),posY+10);
+  ctx.lineTo(posX+80+(pos/2),posY+40);
+  ctx.stroke();
 
-    ctx.moveTo(posX+pos/2,posY+10);
-    ctx.lineTo(posX-80+(pos/2),posY+40);
-    ctx.stroke();
+  ctx.moveTo(posX+pos/2,posY+10);
+  ctx.lineTo(posX-80+(pos/2),posY+40);
+  ctx.stroke();
 }
 
 function drawAnd(ctx,posX,posY,pos){
-    ctx.moveTo(posX+(pos/2),posY+5);
-    ctx.lineTo(posX+(pos/2),posY+60);
-    ctx.stroke(); 
+  ctx.moveTo(posX+(pos/2),posY+5);
+  ctx.lineTo(posX+(pos/2),posY+60);
+  ctx.stroke(); 
 }
 
 function showItems(){
 
-document.getElementById("notbutton").disabled = false;
+  document.getElementById("notbutton").disabled = false;
   document.getElementById("andbutton").disabled = false;
   document.getElementById("orbutton").disabled = false;
   document.getElementById("implicationbutton").disabled = false;
@@ -709,7 +709,7 @@ function buildHTMLTree(root,posX,posY,pos){
   
   var pos = exprLength(treeStr);
   
-   if(posX === 0 && posY === 0){
+  if(posX === 0 && posY === 0){
     posX = (c.width / 2) - (pos/2);
     posY = 25;
   }
@@ -754,135 +754,135 @@ function buildHTMLTree(root,posX,posY,pos){
     
     // not A
     if(notC.type.value == TYPE.PROPOSITION.value){
-        if(hasNonNegated(root,root.children[0].name)){
-            ctx.fillStyle = 'red';
-            ctx.fillText("X",posX,posY+20);
-            return;
-        }
-        
-        var childsipling2 = findParenSipling(root);
-        if(childsipling2) childsipling2.paren = root;
-    
-        setTimeout(function() { buildHTMLTree(childsipling2, posX,posY+20); },250);
+      if(hasNonNegated(root,root.children[0].name)){
+        ctx.fillStyle = 'red';
+        ctx.fillText("X",posX,posY+20);
+        return;
+      }
+      
+      var childsipling2 = findParenSipling(root);
+      if(childsipling2) childsipling2.paren = root;
+      
+      setTimeout(function() { buildHTMLTree(childsipling2, posX,posY+20); },250);
         //buildHTMLTree(childsipling2, posX,posY+20);
-    }
+      }
     // not not
     else if(notC.value == CONNECTIVE.NEGATION.value){
         //buildHTMLTree(root.children[0].children[0], posX+10,posY+20);
         setTimeout(function() { buildHTMLTree(root.children[0].children[0], posX+10,posY+20); },250);
-    }
+      }
     // not or
     else if(notC.value == CONNECTIVE.DISJUNCTION.value){
-        drawAnd(ctx,posX,posY,pos);
-    
-        child1 = clone(notC.children[0]);
-        child2 = clone(notC.children[1]);
-        
-        notC.children[0].type = TYPE.CONNECTIVE;
-        notC.children[0].value = CONNECTIVE.NEGATION.value;
-        notC.children[0].children = [child1];
-        
-        notC.children[1].type = TYPE.CONNECTIVE;
-        notC.children[1].value = CONNECTIVE.NEGATION.value;
-        notC.children[1].children = [child2];
-        
-        root.type = TYPE.CONNECTIVE;
-        root.value = CONNECTIVE.CONJUNCTION.value;
-        root.children = [notC.children[0], notC.children[1]];
-        
-        setTimeout(function() { buildHTMLTree(root, posX,posY+80); },250);
+      drawAnd(ctx,posX,posY,pos);
+      
+      child1 = clone(notC.children[0]);
+      child2 = clone(notC.children[1]);
+      
+      notC.children[0].type = TYPE.CONNECTIVE;
+      notC.children[0].value = CONNECTIVE.NEGATION.value;
+      notC.children[0].children = [child1];
+      
+      notC.children[1].type = TYPE.CONNECTIVE;
+      notC.children[1].value = CONNECTIVE.NEGATION.value;
+      notC.children[1].children = [child2];
+      
+      root.type = TYPE.CONNECTIVE;
+      root.value = CONNECTIVE.CONJUNCTION.value;
+      root.children = [notC.children[0], notC.children[1]];
+      
+      setTimeout(function() { buildHTMLTree(root, posX,posY+80); },250);
         //buildHTMLTree(root, posX,posY+80);
-    }
+      }
     // not and
     else if(notC.value == CONNECTIVE.CONJUNCTION.value){
-        drawOr(ctx,posX,posY,pos);
-    
-        child1 = clone(notC.children[0]);
-        child2 = clone(notC.children[1]);
-        
-        notC.children[0].type = TYPE.CONNECTIVE;
-        notC.children[0].value = CONNECTIVE.NEGATION.value;
-        notC.children[0].children = [child1];
-        
-        notC.children[1].type = TYPE.CONNECTIVE;
-        notC.children[1].value = CONNECTIVE.NEGATION.value;
-        notC.children[1].children = [child2];
-        
-        root.type = TYPE.CONNECTIVE;
-        root.value = CONNECTIVE.DISJUNCTION.value;
-        root.children = [notC.children[0], notC.children[1]];
-        
-        setTimeout(function() { buildHTMLTree(root, posX,posY); },500);        
+      drawOr(ctx,posX,posY,pos);
+      
+      child1 = clone(notC.children[0]);
+      child2 = clone(notC.children[1]);
+      
+      notC.children[0].type = TYPE.CONNECTIVE;
+      notC.children[0].value = CONNECTIVE.NEGATION.value;
+      notC.children[0].children = [child1];
+      
+      notC.children[1].type = TYPE.CONNECTIVE;
+      notC.children[1].value = CONNECTIVE.NEGATION.value;
+      notC.children[1].children = [child2];
+      
+      root.type = TYPE.CONNECTIVE;
+      root.value = CONNECTIVE.DISJUNCTION.value;
+      root.children = [notC.children[0], notC.children[1]];
+      
+      setTimeout(function() { buildHTMLTree(root, posX,posY); },500);        
         //buildHTMLTree(root, posX,posY);
-    }
+      }
     // not implication
     else if(notC.value == CONNECTIVE.IMPLICATION.value){
 
-        child2 = clone(notC.children[1]);
-        
-        notC.children[1].type = TYPE.CONNECTIVE;
-        notC.children[1].value = CONNECTIVE.NEGATION.value;
-        notC.children[1].children = [child2];
-        
-        root.type = TYPE.CONNECTIVE;
-        root.value = CONNECTIVE.CONJUNCTION.value;
-        root.children = [notC.children[0], notC.children[1]];
-        
+      child2 = clone(notC.children[1]);
+      
+      notC.children[1].type = TYPE.CONNECTIVE;
+      notC.children[1].value = CONNECTIVE.NEGATION.value;
+      notC.children[1].children = [child2];
+      
+      root.type = TYPE.CONNECTIVE;
+      root.value = CONNECTIVE.CONJUNCTION.value;
+      root.children = [notC.children[0], notC.children[1]];
+      
         //notC.children[0].sipling = notC.children[1];    
         
         drawAnd(ctx,posX,posY,pos); 
 
         setTimeout(function() { buildHTMLTree(root,posX+15,posY+80); },500);  
         //buildHTMLTree(root,posX+15,posY+80);
-    }
+      }
     // not biconditional
     else if(notC.value == CONNECTIVE.BICONDITIONAL.value){
-        
-        drawOr(ctx,posX,posY,pos);
-        
-        var child1 = clone(notC.children[0]);
-        var child2 = clone(notC.children[1]);
-        var child1n = clone(notC.children[0]);
-        var child2n = clone(notC.children[1]);
-    
-        notC.children[0].type = TYPE.CONNECTIVE;
-        notC.children[0].value = CONNECTIVE.CONJUNCTION.value;
-        notC.children[0].children = [child1, child2];
-        notC.children[0].hasPrinted = true;
-        
-        child1n.type = TYPE.CONNECTIVE;
-        child1n.value = CONNECTIVE.NEGATION.value;
-        child1n.children = [child1];
-        
-        child2.type = TYPE.CONNECTIVE;
-        child2.value = CONNECTIVE.NEGATION.value;
-        child2.children = [child2n];
-        
-        notC.children[1].type = TYPE.CONNECTIVE;
-        notC.children[1].value = CONNECTIVE.CONJUNCTION.value;
-        notC.children[1].children = [child1n, child2n];
-        notC.children[1].hasPrinted = true;
-    
-        notC.type = TYPE.CONNECTIVE;
-        notC.value = CONNECTIVE.DISJUNCTION.value;
-    
-        notC.hasPrinted = true;
-    
-        setTimeout(function() { buildHTMLTree(notC,posX,posY); },500);  
+      
+      drawOr(ctx,posX,posY,pos);
+      
+      var child1 = clone(notC.children[0]);
+      var child2 = clone(notC.children[1]);
+      var child1n = clone(notC.children[0]);
+      var child2n = clone(notC.children[1]);
+      
+      notC.children[0].type = TYPE.CONNECTIVE;
+      notC.children[0].value = CONNECTIVE.CONJUNCTION.value;
+      notC.children[0].children = [child1, child2];
+      notC.children[0].hasPrinted = true;
+      
+      child1n.type = TYPE.CONNECTIVE;
+      child1n.value = CONNECTIVE.NEGATION.value;
+      child1n.children = [child1];
+      
+      child2.type = TYPE.CONNECTIVE;
+      child2.value = CONNECTIVE.NEGATION.value;
+      child2.children = [child2n];
+      
+      notC.children[1].type = TYPE.CONNECTIVE;
+      notC.children[1].value = CONNECTIVE.CONJUNCTION.value;
+      notC.children[1].children = [child1n, child2n];
+      notC.children[1].hasPrinted = true;
+      
+      notC.type = TYPE.CONNECTIVE;
+      notC.value = CONNECTIVE.DISJUNCTION.value;
+      
+      notC.hasPrinted = true;
+      
+      setTimeout(function() { buildHTMLTree(notC,posX,posY); },500);  
         //buildHTMLTree(notC,posX,posY);
+      }
+      
     }
-     
-  }
   // DISJUNCTION
   else if(root.value == CONNECTIVE.DISJUNCTION.value){
-  
-     if(!root.hasPrinted){
-        drawOr(ctx,posX,posY,pos);
-     }
-     
-     setTimeout(function() { buildHTMLTree(root.children[0],posX-(pos/2)-65,posY+60); },250);
-     setTimeout(function() { buildHTMLTree(root.children[1],posX+(pos/2)+75,posY+60); },500);    
     
+   if(!root.hasPrinted){
+    drawOr(ctx,posX,posY,pos);
+  }
+  
+  setTimeout(function() { buildHTMLTree(root.children[0],posX-(pos/2)-65,posY+60); },250);
+  setTimeout(function() { buildHTMLTree(root.children[1],posX+(pos/2)+75,posY+60); },500);    
+  
     //buildHTMLTree(root.children[0],posX-(pos/2)-65,posY+60);
     //buildHTMLTree(root.children[1],posX+(pos/2)+75,posY+60);
     
@@ -891,20 +891,20 @@ function buildHTMLTree(root,posX,posY,pos){
   else if(root.value == CONNECTIVE.CONJUNCTION.value){
     
     if(!root.hasPrinted){
-        drawAnd(ctx,posX,posY,pos);
+      drawAnd(ctx,posX,posY,pos);
     }
-      
+    
     root.children[0].sipling = root.children[1];    
     
     if(!root.hasPrinted){
-        setTimeout(function() { buildHTMLTree(root.children[0],posX+(pos/2)-5,posY+80); },500);    
+      setTimeout(function() { buildHTMLTree(root.children[0],posX+(pos/2)-5,posY+80); },500);    
         //buildHTMLTree(root.children[0],posX+(pos/2)-5,posY+80);
-    }
-    else{
+      }
+      else{
         setTimeout(function() { buildHTMLTree(root.children[0],posX+(pos/2)-5,posY); },500);    
         //buildHTMLTree(root.children[0],posX+(pos/2)-5,posY);
+      }
     }
-  }
   // IMPLICATION
   else if(root.value == CONNECTIVE.IMPLICATION.value){
     drawOr(ctx,posX,posY,pos);
@@ -985,15 +985,15 @@ function resetTable(){
 
 function insertColumn(list){
 
-    var tblHeadObj = document.getElementById("truthtable").tHead;
-    for(i = 0; i < tblHeadObj.rows.length; i++){
-      var newTH = document.createElement("th");
-      tblHeadObj.rows[h].appendChild(newTH);
-      newTH.innerHTML = list[i];
+  var tblHeadObj = document.getElementById("truthtable").tHead;
+  for(i = 0; i < tblHeadObj.rows.length; i++){
+    var newTH = document.createElement("th");
+    tblHeadObj.rows[h].appendChild(newTH);
+    newTH.innerHTML = list[i];
     
-      var newCell = tblBodyObj.rows[i].insertCell(-1);
-      newCell.innerHTML = list[i];
-    }
+    var newCell = tblBodyObj.rows[i].insertCell(-1);
+    newCell.innerHTML = list[i];
+  }
 }
 
 function allNOT(expList){
@@ -1007,57 +1007,57 @@ function allNOT(expList){
 }
 
 function changeLang(lang){
-    if(lang == "en"){
-        document.getElementById("helptext").innerHTML = "Enter your propositional logical expression, and hit enter. Use keywords: and, or, rarrow, rlarrow and thus.";
-        document.getElementById("filebug").innerHTML = "File Bug";
-        document.getElementById("contact").innerHTML = "Contact";
-        document.getElementById("tabletitle").innerHTML = "Truth table";
-        document.getElementById("tableautitle").innerHTML = "Semantic Tableaux";
-        
-        document.getElementById("e1").innerHTML = "Example 1";
-        document.getElementById("e2").innerHTML = "Example 2";
-        document.getElementById("e3").innerHTML = "Example 3";
-        
-        err0 = "Ill-formed expression: wrong placement of negation at position ";
-        err1 = "Ill-formed expression: wrong placement of ";
-        err2 = " at position ";
-        err3 = "Ill-formed expression: illegal character: ";
-        err5 = "Ill-formed expression: only one thus allowed";
-        err6 = "Ill-formed expression: no propositions found";
-        err7 = "Ill-formed expression: wrong number of parentheses!";
-        err8 = "Ill-formed expression: wrong placement of parentheses!";
-        err9 = "Ill-formed expression: empty parentheses ()!";
-        err10 = "Ill-formed expression: wrong placement of propositions!";
-        err11 = "Ill-formed expression: wrong placement of connectives!";
-        err12 = "Ill-formed expression: starts with connective!";
-        err13 = "Ill-formed expression: ends with connective!";
-        
-    }
-    else if(lang == "da"){
-        document.getElementById("helptext").innerHTML = "Indtast dit logiske udsagn, og tryk enter. Brug n&oslash;gleordene: and, or, rarrow, rlarrow og thus.";
-        document.getElementById("filebug").innerHTML = "Anmeld fejl";
-        document.getElementById("contact").innerHTML = "Kontakt";
-        document.getElementById("tabletitle").innerHTML = "Sandhedstabel";
-        document.getElementById("tableautitle").innerHTML = "Semantisk Tableaux";
-        
-        document.getElementById("e1").innerHTML = "Eksempel 1";
-        document.getElementById("e2").innerHTML = "Eksempel 2";
-        document.getElementById("e3").innerHTML = "Eksempel 3";
+  if(lang == "en"){
+    document.getElementById("helptext").innerHTML = "Enter your propositional logical expression, and hit enter. Use keywords: and, or, rarrow, rlarrow and thus.";
+    document.getElementById("filebug").innerHTML = "File Bug";
+    document.getElementById("contact").innerHTML = "Contact";
+    document.getElementById("tabletitle").innerHTML = "Truth table";
+    document.getElementById("tableautitle").innerHTML = "Semantic Tableaux";
     
-        err0 = "Fejlartet udtryk: forkert placering af negation p&aring; position ";
-        err1 = "Fejlartet udtryk:: wrong placement of ";
-        err2 = " p&aring; position ";
-        err3 = "Fejlartet udtryk: ulovligt tegn: ";
-        err5 = "Fejlartet udtryk: kun en konklusion tilladt";
-        err6 = "Fejlartet udtryk: ingen pr&aelig;dikater fundet";
-        err7 = "Fejlartet udtryk: forkert antal of paranteser!";
-        err8 = "Fejlartet udtryk: forkert placering af paranteser!";
-        err9 = "Fejlartet udtryk: tom parentes ()!";
-        err10 = "Fejlartet udtryk: forkert placering af pr&aelig;dikater!";
-        err11 = "Fejlartet udtryk: forkert placering af konnektiver!";
-        err12 = "Fejlartet udtryk: starter med et konnektiv!";
-        err13 = "Fejlartet udtryk: slutter med et konnektiv!";
-    }
+    document.getElementById("e1").innerHTML = "Example 1";
+    document.getElementById("e2").innerHTML = "Example 2";
+    document.getElementById("e3").innerHTML = "Example 3";
+    
+    err0 = "Ill-formed expression: wrong placement of negation at position ";
+    err1 = "Ill-formed expression: wrong placement of ";
+    err2 = " at position ";
+    err3 = "Ill-formed expression: illegal character: ";
+    err5 = "Ill-formed expression: only one thus allowed";
+    err6 = "Ill-formed expression: no propositions found";
+    err7 = "Ill-formed expression: wrong number of parentheses!";
+    err8 = "Ill-formed expression: wrong placement of parentheses!";
+    err9 = "Ill-formed expression: empty parentheses ()!";
+    err10 = "Ill-formed expression: wrong placement of propositions!";
+    err11 = "Ill-formed expression: wrong placement of connectives!";
+    err12 = "Ill-formed expression: starts with connective!";
+    err13 = "Ill-formed expression: ends with connective!";
+    
+  }
+  else if(lang == "da"){
+    document.getElementById("helptext").innerHTML = "Indtast dit logiske udsagn, og tryk enter. Brug n&oslash;gleordene: and, or, rarrow, rlarrow og thus.";
+    document.getElementById("filebug").innerHTML = "Anmeld fejl";
+    document.getElementById("contact").innerHTML = "Kontakt";
+    document.getElementById("tabletitle").innerHTML = "Sandhedstabel";
+    document.getElementById("tableautitle").innerHTML = "Semantisk Tableaux";
+    
+    document.getElementById("e1").innerHTML = "Eksempel 1";
+    document.getElementById("e2").innerHTML = "Eksempel 2";
+    document.getElementById("e3").innerHTML = "Eksempel 3";
+    
+    err0 = "Fejlartet udtryk: forkert placering af negation p&aring; position ";
+    err1 = "Fejlartet udtryk:: wrong placement of ";
+    err2 = " p&aring; position ";
+    err3 = "Fejlartet udtryk: ulovligt tegn: ";
+    err5 = "Fejlartet udtryk: kun en konklusion tilladt";
+    err6 = "Fejlartet udtryk: ingen pr&aelig;dikater fundet";
+    err7 = "Fejlartet udtryk: forkert antal of paranteser!";
+    err8 = "Fejlartet udtryk: forkert placering af paranteser!";
+    err9 = "Fejlartet udtryk: tom parentes ()!";
+    err10 = "Fejlartet udtryk: forkert placering af pr&aelig;dikater!";
+    err11 = "Fejlartet udtryk: forkert placering af konnektiver!";
+    err12 = "Fejlartet udtryk: starter med et konnektiv!";
+    err13 = "Fejlartet udtryk: slutter med et konnektiv!";
+  }
 
 }
 

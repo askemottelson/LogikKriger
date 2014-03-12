@@ -2,8 +2,8 @@ var BrowserDetect = {
 	init: function () {
 		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
 		this.version = this.searchVersion(navigator.userAgent)
-			|| this.searchVersion(navigator.appVersion)
-			|| "an unknown version";
+		|| this.searchVersion(navigator.appVersion)
+		|| "an unknown version";
 		this.OS = this.searchString(this.dataOS) || "an unknown OS";
 	},
 	searchString: function (data) {
@@ -25,47 +25,47 @@ var BrowserDetect = {
 		return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
 	},
 	dataBrowser: [
-		{
-			string: navigator.userAgent,
-			subString: "Chrome",
-			identity: "Chrome"
-		},
-		{ 	string: navigator.userAgent,
-			subString: "OmniWeb",
-			versionSearch: "OmniWeb/",
-			identity: "OmniWeb"
-		},
-		{
-			string: navigator.vendor,
-			subString: "Apple",
-			identity: "Safari",
-			versionSearch: "Version"
-		},
-		{
-			prop: window.opera,
-			identity: "Opera",
-			versionSearch: "Version"
-		},
-		{
-			string: navigator.vendor,
-			subString: "iCab",
-			identity: "iCab"
-		},
-		{
-			string: navigator.vendor,
-			subString: "KDE",
-			identity: "Konqueror"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "Firefox",
-			identity: "Firefox"
-		},
-		{
-			string: navigator.vendor,
-			subString: "Camino",
-			identity: "Camino"
-		},
+	{
+		string: navigator.userAgent,
+		subString: "Chrome",
+		identity: "Chrome"
+	},
+	{ 	string: navigator.userAgent,
+		subString: "OmniWeb",
+		versionSearch: "OmniWeb/",
+		identity: "OmniWeb"
+	},
+	{
+		string: navigator.vendor,
+		subString: "Apple",
+		identity: "Safari",
+		versionSearch: "Version"
+	},
+	{
+		prop: window.opera,
+		identity: "Opera",
+		versionSearch: "Version"
+	},
+	{
+		string: navigator.vendor,
+		subString: "iCab",
+		identity: "iCab"
+	},
+	{
+		string: navigator.vendor,
+		subString: "KDE",
+		identity: "Konqueror"
+	},
+	{
+		string: navigator.userAgent,
+		subString: "Firefox",
+		identity: "Firefox"
+	},
+	{
+		string: navigator.vendor,
+		subString: "Camino",
+		identity: "Camino"
+	},
 		{		// for newer Netscapes (6+)
 			string: navigator.userAgent,
 			subString: "Netscape",
@@ -89,8 +89,8 @@ var BrowserDetect = {
 			identity: "Netscape",
 			versionSearch: "Mozilla"
 		}
-	],
-	dataOS : [
+		],
+		dataOS : [
 		{
 			string: navigator.platform,
 			subString: "Win",
@@ -102,16 +102,16 @@ var BrowserDetect = {
 			identity: "Mac"
 		},
 		{
-			   string: navigator.userAgent,
-			   subString: "iPhone",
-			   identity: "iPhone/iPod"
-	    },
+			string: navigator.userAgent,
+			subString: "iPhone",
+			identity: "iPhone/iPod"
+		},
 		{
 			string: navigator.platform,
 			subString: "Linux",
 			identity: "Linux"
 		}
-	]
+		]
 
-};
-BrowserDetect.init();
+	};
+	BrowserDetect.init();

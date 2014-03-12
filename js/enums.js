@@ -43,22 +43,22 @@ var CONNECTIVE = {
 // 'class' for connectives
 // this is needed because the index needs to by unique, which is not possible with enums
 function newConnective(type){
-   var name;
+ var name;
 
-   switch(type){
-    case CONNECTIVE.NEGATION.value: name = "NOT"; break;
-    case CONNECTIVE.CONJUNCTION.value: name = "AND"; break;
-    case CONNECTIVE.DISJUNCTION.value: name = "OR"; break;
-    case CONNECTIVE.IMPLICATION.value: name = "RARROW"; break;
-    case CONNECTIVE.BICONDITIONAL.value: name = "RLARROW"; break;
-    case CONNECTIVE.THUS.value: name = "THUS"; break;
-    default: name = ""; break;
-   }
-   
-   this.name = name;
-   this.value = type;
-   this.type = TYPE.CONNECTIVE;
-   this.index = 0;
+ switch(type){
+  case CONNECTIVE.NEGATION.value: name = "NOT"; break;
+  case CONNECTIVE.CONJUNCTION.value: name = "AND"; break;
+  case CONNECTIVE.DISJUNCTION.value: name = "OR"; break;
+  case CONNECTIVE.IMPLICATION.value: name = "RARROW"; break;
+  case CONNECTIVE.BICONDITIONAL.value: name = "RLARROW"; break;
+  case CONNECTIVE.THUS.value: name = "THUS"; break;
+  default: name = ""; break;
+}
+
+this.name = name;
+this.value = type;
+this.type = TYPE.CONNECTIVE;
+this.index = 0;
 }
 
 
