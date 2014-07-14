@@ -28,10 +28,10 @@ function lexExp(symbol, index){
   return lex;
 }
 
-function parseSentence(){
+function parseSentence() {
   resetTable();
   startLoader();
-  
+
   var form = document.getElementById("form");
 
   var lexIndex = 0;
@@ -42,11 +42,11 @@ function parseSentence(){
 
   // lexify all inputs
   var i;
-  for(i = 0; i < expArr.length; i++){
-    output.push(lexExp(expArr[i],i));
+  for (i = 0; i < expArr.length; i++) {
+    output.push(lexExp(expArr[i], i));
   }
 
-  if(isIllFormed(output)){
+  if (isIllFormed(output)) {
     return;
   }
 
@@ -54,60 +54,58 @@ function parseSentence(){
 
   // lets build an HTML-table showing truthvalues, and do some evalutian
   // only if its a logical expression, not a syllogism
-  
+
   document.getElementById("tableautitle").style.visibility = "visible";
   document.getElementById("myCanvas").style.visibility = "visible";
-  
-  if(numThus(output) == 0){
+
+  if (numThus(output) == 0) {
     document.getElementById("tabletitle").style.visibility = "visible";
     document.getElementById("truthtable").style.visibility = "visible";
-   
+
     var root = buildObject(output);
-    buildHTMLTable(root,output);
+    buildHTMLTable(root, output);
   }
 
   // analyze the syllogism by a logical plateau
   var thusPos = findTherefore(output);
   var root;
-   
-  if(thusPos == -1){
+
+  if (thusPos == -1) {
     root = buildObject(output);
-  }
-  else{
-    var conclusionList = output.slice(thusPos+1,output.length+1);
+  } else {
+    var conclusionList = output.slice(thusPos + 1, output.length + 1);
     var premisesList = output.slice(0, thusPos);
 
-    incrementIndex(premisesList,1);
+    incrementIndex(premisesList, 1);
 
-    premisesList.unshift(lexExp('(',0));
-    premisesList.push(lexExp(')',0));
+    premisesList.unshift(lexExp('(', 0));
+    premisesList.push(lexExp(')', 0));
 
-    incrementIndex(conclusionList,premisesList.length);
+    incrementIndex(conclusionList, premisesList.length);
 
-    conclusionList.unshift(lexExp('(',0));
-    conclusionList.unshift(lexExp(Unot,1+premisesList.length));
-    conclusionList.unshift(lexExp(Uand,premisesList.length));
-    conclusionList.push(lexExp(')',0));
+    conclusionList.unshift(lexExp('(', 0));
+    conclusionList.unshift(lexExp(Unot, 1 + premisesList.length));
+    conclusionList.unshift(lexExp(Uand, premisesList.length));
+    conclusionList.push(lexExp(')', 0));
 
     var totallist = premisesList.concat(conclusionList);
-    root = buildObject( totallist );
+    root = buildObject(totallist);
 
-    var c=document.getElementById("myCanvas");
-    var ctx=c.getContext("2d");
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
   }
 
 
-  buildHTMLTree(root,0,0);
+  buildHTMLTree(root, 0, 0);
 }
 
 // recursively builds a logical expression
 //  into a tree, finding the main connective over and over again
-function buildObject(exprList){
+function buildObject(exprList) {
 
-  if(exprList.length == 0){
+  if (exprList.length == 0) {
     return null;
-  }
-  else if(exprList.length == 1 && exprList[0].type.value == TYPE.PROPOSITION.value){
+  } else if (exprList.length == 1 && exprList[0].type.value == TYPE.PROPOSITION.value) {
     return exprList[0];
   }
 
@@ -115,50 +113,47 @@ function buildObject(exprList){
 
   // if theres is no root in exp-list, (no logical operators)
   // then find first proposition and return it
-  if(!root){
+  if (!root) {
     return firstProp(exprList);
   }
 
-  if(root.value == CONNECTIVE.NEGATION.value){
+  if (root.value == CONNECTIVE.NEGATION.value) {
 
-    var findex = findIndex(exprList,root);
-    var childObject = buildObject( exprList.slice(findex+1,exprList.length+1) );
+    var findex = findIndex(exprList, root);
+    var childObject = buildObject(exprList.slice(findex + 1, exprList.length + 1));
 
+    if (childObject && root.children.length === 0) {
+      childObject.paren = root;
+      root.children.push(childObject);
+    } else {
+      parseError(err0 + (root.index + 1) + "!");
+      return;
+    }
 
-  if(childObject && root.children.length === 0){
+  } else if (isCon(root) && !isNOT(root)) {
+
+    var findex = findIndex(exprList, root);
+
+    var childObject = buildObject(exprList.slice(0, findex));
     childObject.paren = root;
-    root.children.push( childObject );
-  }
-  else{
-    parseError(err0 + (root.index+1)+"!");
-    return;      
-  }
+    if (childObject) {
+      root.children.push(childObject);
 
-  }
-  else if(isCon(root) && !isNOT(root)){
-
-    var findex = findIndex(exprList,root);
-
-    var childObject = buildObject( exprList.slice(0,findex) );
-    childObject.paren = root;
-    if(childObject){
-      root.children.push( childObject );
-
-      if(childObject.type.value == TYPE.PROPOSITION.value)
-        numProps++;
-    } 
-
-    childObject = buildObject( exprList.slice((findex+1),(exprList.length+1)) );
-    childObject.paren = root;
-    if(childObject){
-      root.children.push( childObject );
-
-      if(childObject.type.value == TYPE.PROPOSITION.value)
+      if (childObject.type.value == TYPE.PROPOSITION.value)
         numProps++;
     }
 
-    if(root.children.length != 2 ){
-      parseError(err1 + root.type.name + err2 + (root.index+1)+"!");
+    childObject = buildObject(exprList.slice((findex + 1), (exprList.length + 1)));
+    childObject.paren = root;
+    if (childObject) {
+      root.children.push(childObject);
+
+      if (childObject.type.value == TYPE.PROPOSITION.value)
+        numProps++;
+    }
+
+    if (root.children.length != 2) {
+      parseError(err1 + root.type.name + err2 + (root.index + 1) + "!");
       return;
     }
   }
@@ -168,11 +163,11 @@ function buildObject(exprList){
 
 /// returns the root from a list of logical operators
 // and parentheses. uses operatorprecendence rules
-  
 
-function findRoot(expList){
 
-  if(expList.length == 0)
+function findRoot(expList) {
+
+  if (expList.length == 0)
     return;
   var root;
 
@@ -180,35 +175,35 @@ function findRoot(expList){
   rparen = 0;
   lparen = 0;
 
-  for(j = 0; j < expList.length; j++){
+  for (j = 0; j < expList.length; j++) {
 
-    if(j == 0 && isNOT(expList[0]) && allExpInParen( expList )){
+    if (j == 0 && isNOT(expList[0]) && allExpInParen(expList)) {
       root = expList[0];
       break;
     }
-    if(allNOT(expList)){
+    if (allNOT(expList)) {
       root = expList[0];
       break;
     }
-    if(isLParen(expList[j])){
+    if (isLParen(expList[j])) {
       inparen = true;
       lparen++;
     }
-    if(isRParen(expList[j])){
+    if (isRParen(expList[j])) {
       rparen++;
 
-      if(rparen == lparen)
+      if (rparen == lparen)
         inparen = false;
     }
-    if(!inparen && isCon(expList[j]) && !isNOT(expList[j])){
+    if (!inparen && isCon(expList[j]) && !isNOT(expList[j])) {
       root = expList[j];
       break;
     }
   }
-  if(!root){
-    root = findRoot(expList.slice(1,expList.length));
+  if (!root) {
+    root = findRoot(expList.slice(1, expList.length));
   }
-  if(root){
+  if (root) {
     root.children = new Array();
   }
 
@@ -219,26 +214,24 @@ function findRoot(expList){
 // returns whether all expressions in a list
 //  is in side a parentheses
 
-function allExpInParen(expList){
+function allExpInParen(expList) {
 
-  if(expList.length == 1)
+  if (expList.length == 1)
     return true;
 
   inparen = false;
 
-  for(i=1; i < expList.length; i++){
+  for (i = 1; i < expList.length; i++) {
 
-    if(isLParen(expList[i])){
+    if (isLParen(expList[i])) {
       inparen = true;
       lparen++;
-    }
-    else if(isRParen(expList[i])){
+    } else if (isRParen(expList[i])) {
       rparen++;
 
-    if(rparen == lparen)
-      inparen = false;
-    }
-    else if(!inparen && isCon(expList[i])){
+      if (rparen == lparen)
+        inparen = false;
+    } else if (!inparen && isCon(expList[i])) {
       return false;
     }
   }
@@ -246,12 +239,12 @@ function allExpInParen(expList){
   return true;
 }
 
-function findPropValue(arr, prop){
+function findPropValue(arr, prop) {
   var val = "";
 
   var i;
-  for(i = 0; i < arr.length; i++){
-    if(arr[i].prop == prop.name)
+  for (i = 0; i < arr.length; i++) {
+    if (arr[i].prop == prop.name)
       val = arr[i].truth;
   }
 
@@ -259,7 +252,7 @@ function findPropValue(arr, prop){
 }
 
 
-function interpretRow(truthrow, root){
+function interpretRow(truthrow, root) {
 
   var result = {};
   var par1;
@@ -267,57 +260,51 @@ function interpretRow(truthrow, root){
 
   result.truth = "?";
 
-  if(root.type.value == TYPE.PROPOSITION.value){
+  if (root.type.value == TYPE.PROPOSITION.value) {
     result.truth = findPropValue(truthrow, root);
     result.prop = root.name;
-  }
-  else if(root.value == CONNECTIVE.NEGATION.value){
+  } else if (root.value == CONNECTIVE.NEGATION.value) {
     par1 = interpretRow(truthrow, root.children[0]);
 
-    if(par1.truth == "F")
+    if (par1.truth == "F")
       result.truth = "T";
     else
       result.truth = "F";
 
-  }
-  else if(root.value == CONNECTIVE.CONJUNCTION.value){
+  } else if (root.value == CONNECTIVE.CONJUNCTION.value) {
     par1 = interpretRow(truthrow, root.children[0]);
     par2 = interpretRow(truthrow, root.children[1]);
 
-    if(par1.truth == "T" && par2.truth == "T")
+    if (par1.truth == "T" && par2.truth == "T")
       result.truth = "T";
     else
       result.truth = "F";
 
-  }
-  else if(root.value == CONNECTIVE.DISJUNCTION.value){
+  } else if (root.value == CONNECTIVE.DISJUNCTION.value) {
     par1 = interpretRow(truthrow, root.children[0]);
     par2 = interpretRow(truthrow, root.children[1]);
 
-    if(par1.truth == "T" || par2.truth == "T")
+    if (par1.truth == "T" || par2.truth == "T")
       result.truth = "T";
     else
       result.truth = "F";
-  }
-  else if(root.value == CONNECTIVE.IMPLICATION.value){
+  } else if (root.value == CONNECTIVE.IMPLICATION.value) {
     par1 = interpretRow(truthrow, root.children[0]);
     par2 = interpretRow(truthrow, root.children[1]);
 
-    if(par1.truth == "T" && par2.truth == "F")
+    if (par1.truth == "T" && par2.truth == "F")
       result.truth = "F";
     else
       result.truth = "T";
 
-  }
-  else if(root.value == CONNECTIVE.BICONDITIONAL.value){
+  } else if (root.value == CONNECTIVE.BICONDITIONAL.value) {
     par1 = interpretRow(truthrow, root.children[0]);
     par2 = interpretRow(truthrow, root.children[1]);
 
-    if(par1.truth == par2.truth)
+    if (par1.truth == par2.truth)
       result.truth = "T";
     else
       result.truth = "F";
   }
   return result;
 }
-
