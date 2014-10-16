@@ -1,1 +1,6 @@
-Propositional logic proof generator. Semantic tableaux generator. Tree method proof generator. Written in JavaScript
+_Propositional logic proof_/_Semantic tableaux_/_Tree method proof_ generator.
+
+Generating proofs and truth tables of propositional logic expressions.
+
+
+Written in JavaScript
