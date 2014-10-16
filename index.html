@@ -6,12 +6,13 @@
   <meta name="keywords" content="propositional, logic, generater, logics, semantic tableaux, logik, prædikatlogik, bevis træ, proof generator">
   <meta name="description" content="Propositional logic proof generator. Semantic tableaux generator. Tree method proof generator. Automatisk generering af semantisk tableaux og sandhedstabel fra prædikatslogik.">
   
-  <link rel="stylesheet" href="fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" />
-  <link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css?v=2.1.0" media="screen" />
+  <link rel="stylesheet" type="text/css" href="js/fancybox/jquery.fancybox.css?v=2.1.0" media="screen" />
   
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-  <script type="text/javascript" src="fancybox/jquery.fancybox.js?v=2.1.0"></script>
+  <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>-->
+  <script type="text/javascript" src="js/fancybox/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="js/fancybox/jquery.fancybox.js?v=2.1.0"></script>
   
 
   <script type="text/javascript" src="js/enums.js"></script>
@@ -32,14 +33,6 @@
      });
     });
      
-     $("#filebug").click(function() {
-      $.fancybox.open({
-       href : 'bug.html',
-       type : 'iframe',
-       padding : 5
-     });
-    });
-
      var url = document.URL;
      var lang = url[url.length-2] + url[url.length-1];
      
@@ -59,20 +52,20 @@
 </head>
 
 <body>
+  <!-- fork me on github -->
+  <a href="https://github.com/askemottelson/LogikKriger"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
 
-  <div id="lang" class="lang">
+  <div id="lang">
+    <a id="filebug" alt="File bug" href="https://github.com/askemottelson/LogikKriger/issues">File Bug</a>
+    <a id="contact" href="mailto:aske@mottelson.dk">Contact</a>
     <a href="index.html?lang=da"><img src="img/da.gif" width="20px" heigth="12px" alt="da" /></a>
     <a href="index.html?lang=en"><img src="img/en.gif" width="20px" heigth="12px" alt="en" /></a>
+
   </div>
-
-
-  <a id="filebug" alt="File bug" class="bug" href="javascript:;">File Bug</a><br />
-  <a id="contact" class="bug" href="mailto:aske@mottelson.dk">Contact</a>
+  
   
   <center>
-
-    <h1>Logikkriger</h1>    
-    
+    <h1>LogikKriger</h1>    
 
     <p id="helptext" class="text">Enter your propositional logical expression, and hit enter.</p>
     <p>
@@ -83,7 +76,7 @@
     
     <input id="inputfield" type="text" class="inputfield" onkeyup="if (event.keyCode == 13 && !document.getElementById('gobutton').disabled) parseSentence(); else updateField();" />
     <input id="gobutton" type="button" value="Go!" onclick="parseSentence();" class="goButton" />
-    <img alt="" src="fancybox/fancybox_loading.gif" id="loader" class="loader" />
+    <img alt="" src="js/fancybox/fancybox_loading.gif" id="loader" class="loader" />
     
     <a id="helplink" alt="Help" class="link" href="javascript:;">?</a>
     

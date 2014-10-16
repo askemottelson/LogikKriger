@@ -3,7 +3,7 @@
     }
     
     h1{
-        font-size:14pt;
+        font-size:24pt;
     }
   
     .inputfield{
@@ -55,12 +55,14 @@
     
     }
     
-    .lang{
+    #lang{
       font-size:10pt;
       color: blue;
       margin-right:5px;
       text-decoration:none;
       float:right;
+      right:0;
+      position: absolute;
     }
     
     .bug{
